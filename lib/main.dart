@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pet_id_checker/widgets/screens/home.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const PetIdChecker());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class PetIdChecker extends StatelessWidget {
+  const PetIdChecker({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,16 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(100, 33, 29, 226)),
         useMaterial3: true,
       ),
-      home: const MyHomePage(),
+      home: const HomeScreen(),
     );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-  
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }
