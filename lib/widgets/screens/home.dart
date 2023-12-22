@@ -12,7 +12,8 @@ class HomeScreen extends StatelessWidget {
         title: const Text(
           'PetID PreSell Checker',
           style: TextStyle(
-              color: AppColors.textPrimary, fontWeight: FontWeight.bold),
+              color: AppColors.textPrimary, fontWeight: FontWeight.bold
+          ),
         ),
         backgroundColor: AppColors.primary,
       ),
