@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/widgets/screens/home.dart';
 
 void main() {
@@ -14,7 +15,7 @@ class PetIdChecker extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'PetID PreSell Checker',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(100, 33, 29, 226)),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
         useMaterial3: true,
       ),
       home: const HomeScreen(),
