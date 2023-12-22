@@ -1,4 +1,4 @@
-package com.example.pet_id_checker
+package yashaco.pet_id_checker
 
 import io.flutter.embedding.android.FlutterActivity
 
