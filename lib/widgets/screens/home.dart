@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
+import 'package:pet_id_checker/shared/constants/paths.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -16,22 +17,22 @@ class HomeScreen extends StatelessWidget {
         color: AppColors.primary,
         child: Column(
           children: [
-            const Expanded(
+            Expanded(
               flex: 3,
               child: Column(
                 children: [
-                  SizedBox(height: 128.0),
+                  const SizedBox(height: 128.0),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 40.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 40.0),
                     child: Center(
-                      child: Image(image: AssetImage('lib/assets/admin_card.png'))
+                      child: Image(image: AssetImage(Paths.getImage('admin_card.png')))
                     ),
                   ),
-                  Center(
+                  const Center(
                     child: Text('PetID PreSell Checker', style: TextStyle(fontSize: 28, color: AppColors.textPrimary, fontWeight: FontWeight.bold))
                   ),
-                  SizedBox(height: 16.0),
-                  Padding(
+                  const SizedBox(height: 16.0),
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 60.0),
                     child: Center(
                       child: Text(
