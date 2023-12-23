@@ -15,6 +15,7 @@ class PetIdChecker extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'PetID PreSell Checker',
       theme: ThemeData(
+        fontFamily: 'Nunito',
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
         useMaterial3: true,
       ),

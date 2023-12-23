@@ -29,11 +29,11 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const Center(
-                    child: Text('PetID PreSell Checker', style: TextStyle(fontSize: 28, color: AppColors.textPrimary, fontWeight: FontWeight.bold))
+                    child: Text('PetID PreSell Checker', style: TextStyle(fontSize: 32, color: AppColors.textPrimary, fontWeight: FontWeight.w800))
                   ),
                   const SizedBox(height: 16.0),
                   const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 60.0),
+                    padding: EdgeInsets.symmetric(horizontal: 50.0),
                     child: Center(
                       child: Text(
                         'This application is created to check Tags before selling them. All Tag boxes must contain control QR codes that will show whether Tag is already in use or not.', 
