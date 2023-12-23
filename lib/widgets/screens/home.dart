@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/shared/constants/paths.dart';
+import 'package:pet_id_checker/widgets/screens/scanner.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -50,7 +51,9 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   FloatingActionButton(
-                    onPressed: _openScanner,
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ScannerScreen()));
+                    },
                     tooltip: 'Scanner',
                     backgroundColor: Colors.white,
                     child: const Icon(Icons.qr_code_scanner_rounded, color: AppColors.primary, size: 32),
