@@ -18,24 +18,27 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: AppColors.primary,
       ),
       body: const Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Column(
+            Padding(
+              padding: EdgeInsets.all(20.0), 
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Expanded(
-                      child: Center(
-                          child:
-                          Image(image: AssetImage('src/assets/admin-card.png')),
-                      )
+                  Center(
+                      child:
+                      Image(image: AssetImage('lib/assets/admin_card.png')),
                   ),
-                  Text(
+                  Center(
+                    child: Text(
                       'This application is created to check Tags before sell them. All Tag boxes must contain control QR codes that will show is Tag already on use or not.',
-                      style: TextStyle(color: AppColors.textSecondary)
+                      style: TextStyle(color: Colors.white)
+                    ),
                   )
                 ]
+              ),
             ),
 
             Column(
