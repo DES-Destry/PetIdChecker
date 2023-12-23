@@ -4,15 +4,19 @@ import 'package:pet_id_checker/shared/constants/app_colors.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  void _openScanner() {
+    print("Scanner opened");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: Container(
         color: AppColors.primary,
-        child: const Column(
+        child: Column(
           children: [
-            Expanded(
+            const Expanded(
               flex: 3,
               child: Column(
                 children: [
@@ -44,10 +48,15 @@ class HomeScreen extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  ElevatedButton(
-                    onPressed: null,
-                    child: Text('Test', style: TextStyle(color: AppColors.textPrimary)),
-                  )
+                  FloatingActionButton(
+                    onPressed: _openScanner,
+                    tooltip: 'Scanner',
+                    backgroundColor: Colors.white,
+                    child: const Icon(Icons.qr_code_scanner, color: AppColors.primary, size: 32),
+                  ),                  
+                  const Center(
+                    child: Text('Scan QR', style: TextStyle(fontSize: 12, color: AppColors.textSecondary))
+                  ),
                 ],
               ),
             )
