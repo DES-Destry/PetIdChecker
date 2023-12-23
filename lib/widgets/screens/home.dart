@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                     onPressed: _openScanner,
                     tooltip: 'Scanner',
                     backgroundColor: Colors.white,
-                    child: const Icon(Icons.qr_code_scanner, color: AppColors.primary, size: 32),
+                    child: const Icon(Icons.qr_code_scanner_rounded, color: AppColors.primary, size: 32),
                   ),                  
                   const Center(
                     child: Text('Scan QR', style: TextStyle(fontSize: 12, color: AppColors.textSecondary))
