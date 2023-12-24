@@ -3,7 +3,7 @@ import 'package:pet_id_checker/api/dto/check_tag.dto.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/shared/constants/paths.dart';
 
-class TagScreen extends StatefulWidget {
+class TagScreen extends StatelessWidget {
   final CheckTagDto tag;
   late String image;
   late String isFreeStatus;
@@ -18,13 +18,8 @@ class TagScreen extends StatefulWidget {
     }
   }
 
-  @override
-  State<TagScreen> createState() => _TagScreenState();
-}
-
-class _TagScreenState extends State<TagScreen> {
   Widget _reportButton() {
-    return !widget.tag.isFree 
+    return !tag.isFree 
       ? ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
@@ -64,11 +59,11 @@ class _TagScreenState extends State<TagScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 100.0),
               child: Center(
-                child: Image(image: AssetImage(widget.image))
+                child: Image(image: AssetImage(image))
               ),
             ),
             Center(
-              child: Text('#${widget.tag.id}', style: const TextStyle(fontSize: 64, color: AppColors.textPrimary, fontWeight: FontWeight.bold))
+              child: Text('#${tag.id}', style: const TextStyle(fontSize: 64, color: AppColors.textPrimary, fontWeight: FontWeight.bold))
             ),
             const SizedBox(height: 32.0),
             Padding(
@@ -76,9 +71,9 @@ class _TagScreenState extends State<TagScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Is Free: ${widget.isFreeStatus}', style: const TextStyle(fontSize: 16, color: AppColors.textSecondary)),
-                  Text('Owner Email: ${widget.tag.pet?.ownerEmail ?? 'N/A'}', style: const TextStyle(fontSize: 16, color: AppColors.textSecondary)),
-                  Text('Pet Name: ${widget.tag.pet?.name ?? 'N/A'}', style: const TextStyle(fontSize: 16, color: AppColors.textSecondary)),
+                  Text('Is Free: $isFreeStatus', style: const TextStyle(fontSize: 16, color: AppColors.textSecondary)),
+                  Text('Owner Email: ${tag.pet?.ownerEmail ?? 'N/A'}', style: const TextStyle(fontSize: 16, color: AppColors.textSecondary)),
+                  Text('Pet Name: ${tag.pet?.name ?? 'N/A'}', style: const TextStyle(fontSize: 16, color: AppColors.textSecondary)),
                 ],
               )
             ),
