@@ -27,8 +27,16 @@ class _TagScreenState extends State<TagScreen> {
     return !widget.tag.isFree 
       ? ElevatedButton(
           onPressed: () {},
-          style: ButtonStyle(foregroundColor: MaterialStateProperty.all<Color>(AppColors.primary), backgroundColor: MaterialStateProperty.all<Color>(Colors.white)),
-          child: const Text("Report tag"),
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.red,
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          child: const Text("Report tag", style: TextStyle(
+            fontSize: 22
+          )),
       ) 
       : Container();
   }
