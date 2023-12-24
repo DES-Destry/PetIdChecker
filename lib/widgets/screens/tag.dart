@@ -51,7 +51,7 @@ class _TagScreenState extends State<TagScreen> {
           children: [
             const SizedBox(height: 64.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 CloseButton(
                   color: AppColors.textPrimary,
