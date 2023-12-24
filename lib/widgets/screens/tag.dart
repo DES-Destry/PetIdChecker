@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pet_id_checker/api/dto/check_tag_dto.dart';
+import 'package:pet_id_checker/api/dto/check_tag.dto.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/shared/constants/paths.dart';
 

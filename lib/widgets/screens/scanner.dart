@@ -1,9 +1,11 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:pet_id_checker/api/dto/check_tag_dto.dart';
+import 'package:pet_id_checker/api/dto/check_tag.dto.dart';
 import 'package:pet_id_checker/api/tag_controller.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
+import 'package:pet_id_checker/shared/exceptions/api.exception.dart';
+import 'package:pet_id_checker/shared/exceptions/connection.exception.dart';
+import 'package:pet_id_checker/shared/exceptions/error_like.dart';
 import 'package:pet_id_checker/widgets/components/qr_scanner_overlay.dart';
 import 'package:pet_id_checker/widgets/screens/tag.dart';
 
@@ -26,7 +28,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
     return double.tryParse(s) != null;
   }
 
-  Future<void> _onScan(BuildContext context, BarcodeCapture result, VoidCallback onQrFormatError, VoidCallback onCriticalRequestError, Function(CheckTagDto?) readyToOpenTag) async {
+  Future<void> _onScan(BuildContext context, BarcodeCapture result, VoidCallback onQrFormatError, Function(CheckTagDto?, ErrorLike?) onControlCheckResult) async {
     final String controlCode = result.raw[0]['rawValue'];
 
     if(!isNumeric(controlCode)) {
@@ -34,14 +36,16 @@ class _ScannerScreenState extends State<ScannerScreen> {
       return;
     }
 
-    final Response<CheckTagDto>? checkResponse = await _tagController.tagPreSellCheck(controlCode);
-
-    if (checkResponse == null || checkResponse.data == null) {
-      onCriticalRequestError.call();
-      return;
+    try {
+      final CheckTagDto checkResult = await _tagController.tagPreSellCheck(controlCode);
+      onControlCheckResult.call(checkResult, null);
+    } on ApiException catch (e) {
+      onControlCheckResult.call(null, ErrorLike.fromApiError(e));
+    } on ConnectionException catch (e) {
+      onControlCheckResult.call(null, ErrorLike.fromConnectionError(e));
+    } catch (e) {
+      onControlCheckResult.call(null, ErrorLike.fromApplicationError(e));
     }
-
-    readyToOpenTag.call(checkResponse.data);
   }
 
   Future<void> _showInfoDialog(BuildContext context, String title, String message) {
@@ -99,16 +103,13 @@ class _ScannerScreenState extends State<ScannerScreen> {
                           () { 
                             _showInfoDialog(context, 'Invalid QR code', 'This QR has an unknown format');
                           },
-                          () { 
-                            _showInfoDialog(context, 'Server error', 'Cannot perform request to server');
-                          },
-                          (CheckTagDto? tag) {
-                            if (tag == null) {
-                              _showInfoDialog(context, 'Server error', 'Undefined tag was got from the server');
+                          (CheckTagDto? tag, ErrorLike? err) {
+                            if (err != null) {
+                              _showInfoDialog(context, 'Server error', 'Caught error with code: ${err.code}');
                               return;
                             }
 
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => TagScreen(tag: tag)));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => TagScreen(tag: tag!)));
                           }
                         );
                       },
