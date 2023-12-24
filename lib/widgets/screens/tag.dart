@@ -50,13 +50,15 @@ class _TagScreenState extends State<TagScreen> {
         child: Column(
           children: [
             const SizedBox(height: 64.0),
-            Row(children: [
-              CloseButton(
-                color: AppColors.textPrimary,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CloseButton(
+                  color: AppColors.textPrimary,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
             ],),
             const SizedBox(height: 64.0),
             Padding(
