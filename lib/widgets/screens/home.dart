@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   FloatingActionButton(
                     onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ScannerScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => ScannerScreen()));
                     },
                     tooltip: 'Scanner',
                     backgroundColor: Colors.white,

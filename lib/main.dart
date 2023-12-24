@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/widgets/screens/home.dart';
 
-void main() {
+void main() async {
+  await dotenv.load(fileName: '.env');
+
   runApp(const PetIdChecker());
 }
 

@@ -1,13 +1,63 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:pet_id_checker/api/dto/check_tag_dto.dart';
+import 'package:pet_id_checker/api/tag_controller.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/widgets/components/qr_scanner_overlay.dart';
+import 'package:pet_id_checker/widgets/screens/tag.dart';
 
 class ScannerScreen extends StatelessWidget {
-  const ScannerScreen({super.key});
+  final TagController _tagController = TagController();
 
-  void _onScan(BarcodeCapture result) {
-    print(result.raw[0]['rawValue']);
+  ScannerScreen({super.key});
+
+  bool isNumeric(String? s) {
+    if (s == null) {
+      return false;
+    }
+    return double.tryParse(s) != null;
+  }
+
+  Future<void> _onScan(BuildContext context, BarcodeCapture result, VoidCallback onQrFormatError, VoidCallback onCriticalRequestError, Function(CheckTagDto?) readyToOpenTag) async {
+    final String controlCode = result.raw[0]['rawValue'];
+
+    if(!isNumeric(controlCode)) {
+      onQrFormatError.call();
+      return;
+    }
+
+    final Response<CheckTagDto>? checkResponse = await _tagController.tagPreSellCheck(controlCode);
+
+    if (checkResponse == null || checkResponse.data == null) {
+      onCriticalRequestError.call();
+      return;
+    }
+
+    readyToOpenTag.call(checkResponse.data);
+  }
+
+  Future<void> _showInfoDialog(BuildContext context, String title, String message) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -18,7 +68,6 @@ class ScannerScreen extends StatelessWidget {
         foregroundColor: AppColors.textSecondary,
         backgroundColor: AppColors.primary,
         title: const Text('PreSell Checker Scanner', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
-        // actions: [], - add close scanner
       ),
       body: Container(
         width: double.infinity,
@@ -28,13 +77,24 @@ class ScannerScreen extends StatelessWidget {
                 child: Stack(
                   children: [
                     MobileScanner(
-                      onDetect: _onScan,
-                      overlay: const Column(
-                        children: [
-                          // SizedBox(height: 64.0),
-                          // Text('Place the QR code of the box in the area', style: TextStyle(fontSize: 16, color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
+                      onDetect: (result) async {
+                        await _onScan(context, result,
+                          () { 
+                            _showInfoDialog(context, 'Invalid QR code', 'This QR has an unknown format');
+                          },
+                          () { 
+                            _showInfoDialog(context, 'Server error', 'Cannot perform request to server');
+                          },
+                          (CheckTagDto? tag) {
+                            if (tag == null) {
+                              _showInfoDialog(context, 'Server error', 'Undefined tag was got from the server');
+                              return;
+                            }
+
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => TagScreen(tag: tag)));
+                          }
+                        );
+                      },
                     ),
                     const QRScannerOverlay(overlayColour: AppColors.shadowPrimary)
                   ]
