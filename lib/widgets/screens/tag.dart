@@ -58,7 +58,7 @@ class _TagScreenState extends State<TagScreen> {
                 },
               ),
             ],),
-            const SizedBox(height: 96.0),
+            const SizedBox(height: 64.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 100.0),
               child: Center(
