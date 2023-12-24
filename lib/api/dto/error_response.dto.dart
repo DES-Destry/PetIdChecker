@@ -11,8 +11,8 @@ class ErrorResponseDto {
   final String instance;
   final String code;
   final String stackTrace;
-  final Map<String, dynamic> metadata;
   final String traceId;
+  final Object? metadata;
 
   ErrorResponseDto({
     required this.type,
@@ -22,8 +22,8 @@ class ErrorResponseDto {
     required this.instance,
     required this.code,
     required this.stackTrace,
-    required this.metadata,
-    required this.traceId
+    required this.traceId,
+    this.metadata,
   });
 
   factory ErrorResponseDto.fromJson(Map<String, dynamic> json) => _$ErrorResponseDtoFromJson(json);

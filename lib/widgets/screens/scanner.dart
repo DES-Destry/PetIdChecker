@@ -105,6 +105,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                           },
                           (CheckTagDto? tag, ErrorLike? err) {
                             if (err != null) {
+                              print(err.message);
                               _showInfoDialog(context, 'Error', 'Caught error with code: ${err.code}');
                               return;
                             }
