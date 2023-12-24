@@ -36,25 +36,35 @@ class _TagScreenState extends State<TagScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primary,
       body: Container(
         width: double.infinity,
         child: Column(
           children: [
-            Row(),
-            const SizedBox(height: 128.0),
+            const SizedBox(height: 64.0),
+            Row(children: [
+              CloseButton(
+                color: AppColors.textPrimary,
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],),
+            const SizedBox(height: 96.0),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              padding: const EdgeInsets.symmetric(horizontal: 100.0),
               child: Center(
                 child: Image(image: AssetImage(widget.image))
               ),
             ),
             Center(
-              child: Text('#${widget.tag.id}', style: const TextStyle(fontSize: 32, color: AppColors.textPrimary, fontWeight: FontWeight.w800))
+              child: Text('#${widget.tag.id}', style: const TextStyle(fontSize: 64, color: AppColors.textPrimary, fontWeight: FontWeight.bold))
             ),
             const SizedBox(height: 32.0),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0),
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('Is Free: ${widget.isFreeStatus}', style: const TextStyle(fontSize: 16, color: AppColors.textSecondary)),
                   Text('Owner Email: ${widget.tag.pet?.ownerEmail ?? 'N/A'}', style: const TextStyle(fontSize: 16, color: AppColors.textSecondary)),
