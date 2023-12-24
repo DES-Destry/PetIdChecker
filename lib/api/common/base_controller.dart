@@ -18,6 +18,8 @@ abstract class BaseController {
         'Authorization': 'Bearer $_token',
         'ngrok-skip-browser-warning': true
       }));
+
+      print(response);
       return response;
     }
     catch (e) {

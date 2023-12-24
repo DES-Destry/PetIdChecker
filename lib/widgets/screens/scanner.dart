@@ -7,10 +7,17 @@ import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/widgets/components/qr_scanner_overlay.dart';
 import 'package:pet_id_checker/widgets/screens/tag.dart';
 
-class ScannerScreen extends StatelessWidget {
+class ScannerScreen extends StatefulWidget {
+  const ScannerScreen({super.key});
+
+  @override
+  State<ScannerScreen> createState() => _ScannerScreenState();
+}
+
+class _ScannerScreenState extends State<ScannerScreen> {
   final TagController _tagController = TagController();
 
-  ScannerScreen({super.key});
+  late int dialogsOpened = 0;
 
   bool isNumeric(String? s) {
     if (s == null) {
@@ -38,6 +45,8 @@ class ScannerScreen extends StatelessWidget {
   }
 
   Future<void> _showInfoDialog(BuildContext context, String title, String message) {
+    dialogsOpened++;
+
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
@@ -51,6 +60,7 @@ class ScannerScreen extends StatelessWidget {
               ),
               child: const Text('Ok'),
               onPressed: () {
+                dialogsOpened--;
                 Navigator.of(context).pop();
               },
             ),
@@ -77,7 +87,14 @@ class ScannerScreen extends StatelessWidget {
                 child: Stack(
                   children: [
                     MobileScanner(
+                      controller: MobileScannerController(
+                        detectionTimeoutMs: 1000,
+                      ),
                       onDetect: (result) async {
+                        if (dialogsOpened != 0) {
+                          return;
+                        }
+
                         await _onScan(context, result,
                           () { 
                             _showInfoDialog(context, 'Invalid QR code', 'This QR has an unknown format');
