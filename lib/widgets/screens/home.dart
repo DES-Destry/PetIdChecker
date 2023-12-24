@@ -5,11 +5,7 @@ import 'package:pet_id_checker/widgets/screens/scanner.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  void _openScanner() {
-    print("Scanner opened");
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
