@@ -109,7 +109,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                               return;
                             }
 
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => TagScreen(tag: tag!)));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TagScreen(tag: tag!)));
                           }
                         );
                       },
