@@ -3,6 +3,7 @@ import 'package:pet_id_checker/api/dto/check_tag.dto.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/shared/constants/paths.dart';
 
+// ignore: must_be_immutable
 class TagScreen extends StatelessWidget {
   final CheckTagDto tag;
   late String image;
@@ -40,7 +41,7 @@ class TagScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primary,
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Column(
           children: [

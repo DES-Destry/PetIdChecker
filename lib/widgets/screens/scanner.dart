@@ -83,7 +83,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
         backgroundColor: AppColors.primary,
         title: const Text('PreSell Checker Scanner', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
       ),
-      body: Container(
+      body: SizedBox(
         width: double.infinity,
         child: Column(
             children: [
