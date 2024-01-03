@@ -1,10 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/shared/constants/paths.dart';
 import 'package:pet_id_checker/widgets/screens/scanner.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
+
+  final LocalAuthentication _localAuth = LocalAuthentication();
+
+
+  Future<void> _showInfoDialog(BuildContext context, String title, String message) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future<void> _onScannerOpened(BuildContext context, VoidCallback onSuccess, VoidCallback onAuthFail, VoidCallback onAuthDisabled) async {
+    bool isAuthAvailable = await _localAuth.canCheckBiometrics;
+
+    if (isAuthAvailable) {
+      bool isAuthenticated = await _localAuth.authenticate(
+        localizedReason: 'Authenticate using biometrics',
+        options: const AuthenticationOptions(useErrorDialogs: true, stickyAuth: true),
+      );
+
+      if (isAuthenticated) {
+        onSuccess.call();
+      } else {
+        onAuthFail.call();
+      }
+
+      return;
+    }
+
+    onAuthDisabled.call();
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -47,8 +95,19 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   FloatingActionButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const ScannerScreen()));
+                    onPressed: () async {
+                      await _onScannerOpened(
+                        context, 
+                        () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const ScannerScreen()));
+                        }, 
+                        () async { 
+                          await _showInfoDialog(context, "Authentication failed!", "Try again.");
+                        }, 
+                        () async { 
+                          await _showInfoDialog(context, "Enable biometry authentication!", "For more secure application usage you must enable biometry usage for this app. Overwise you cannot using this application.");
+                        }
+                      );
                     },
                     tooltip: 'Scanner',
                     backgroundColor: Colors.white,

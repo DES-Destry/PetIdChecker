@@ -5,7 +5,6 @@ import 'package:pet_id_checker/widgets/screens/home.dart';
 
 void main() async {
   await dotenv.load(fileName: '.env');
-
   runApp(const PetIdChecker());
 }
 
@@ -22,7 +21,7 @@ class PetIdChecker extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primary),
         useMaterial3: true,
       ),
-      home: const HomeScreen(),
+      home: HomeScreen(),
     );
   }
 }
