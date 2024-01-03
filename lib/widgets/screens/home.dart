@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
     if (isAuthAvailable) {
       bool isAuthenticated = await _localAuth.authenticate(
         localizedReason: 'Authenticate using biometrics',
-        options: const AuthenticationOptions(useErrorDialogs: true, stickyAuth: true),
+        options: const AuthenticationOptions(useErrorDialogs: true, stickyAuth: true, biometricOnly: true),
       );
 
       if (isAuthenticated) {
