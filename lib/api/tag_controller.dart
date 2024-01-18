@@ -5,7 +5,7 @@ class TagController extends BaseController {
   final String _basePath = 'tag';
 
   Future<CheckTagDto> tagPreSellCheck(String controlCode) async {
-    var response = await get('$_basePath/pre-sell/$controlCode');
+    final response = await get('$_basePath/pre-sell/$controlCode');
     return CheckTagDto.fromJson(response.data);
   }
 }

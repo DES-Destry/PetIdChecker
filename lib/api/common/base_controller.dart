@@ -33,6 +33,10 @@ abstract class BaseController {
       throw ConnectionException();
     }
 
+    if (response.statusCode == 404 && response.data.runtimeType == String) {
+      throw ConnectionException();
+    }
+
     if (_isSuccessfulStatus(response.statusCode!)) {
       return response;
     }
