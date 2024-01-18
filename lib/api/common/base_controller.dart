@@ -18,108 +18,128 @@ abstract class BaseController {
 
   @protected
   Future<Response> get(String path) async {
-    final Response response = await _dio.get(
-      '$_baseUrl/$path', 
-      options: Options(
-        validateStatus: (_) => true,
-        headers: {
-          'Authorization': 'Bearer $_token',
-          'ngrok-skip-browser-warning': true
-        }
-      )
-    );
+    try {
+      final Response response = await _dio.get(
+        '$_baseUrl/$path', 
+        options: Options(
+          validateStatus: (_) => true,
+          headers: {
+            'Authorization': 'Bearer $_token',
+            'ngrok-skip-browser-warning': true
+          }
+        )
+      );
 
-    if (response.statusCode == null || response.data == null) {
+      if (response.statusCode == null || response.data == null) {
+        throw ConnectionException();
+      } 
+
+      if (response.statusCode == 404 && response.data.runtimeType == String) {
+        throw ConnectionException();
+      }
+
+      if (_isSuccessfulStatus(response.statusCode!)) {
+        return response;
+      }
+
+      final errorResponse = ErrorResponseDto.fromJson(response.data);
+      throw ApiException(errorResponse: errorResponse);
+    }
+    catch (err) {
       throw ConnectionException();
     }
-
-    if (response.statusCode == 404 && response.data.runtimeType == String) {
-      throw ConnectionException();
-    }
-
-    if (_isSuccessfulStatus(response.statusCode!)) {
-      return response;
-    }
-
-    var errorResponse = ErrorResponseDto.fromJson(response.data);
-    throw ApiException(errorResponse: errorResponse);
   }
 
   @protected
   Future<Response> post(String path, Object? body) async {
-    final Response response = await _dio.post(
-      '$_baseUrl/$path', 
-      data: body,
-      options: Options(
-        validateStatus: (_) => true,
-        headers: {
-          'Authorization': 'Bearer $_token',
-          'ngrok-skip-browser-warning': true
-        }
-      )
-    );
+    try {
+      final Response response = await _dio.post(
+        '$_baseUrl/$path', 
+        data: body,
+        options: Options(
+          validateStatus: (_) => true,
+          headers: {
+            'Authorization': 'Bearer $_token',
+            'ngrok-skip-browser-warning': true
+          }
+        )
+      );
 
-    if (response.statusCode == null || response.data == null) {
+      if (response.statusCode == null || response.data == null) {
+        throw ConnectionException();
+      }
+
+      if (_isSuccessfulStatus(response.statusCode!)) {
+        return response;
+      }
+
+      var errorResponse = ErrorResponseDto.fromJson(response.data);
+      throw ApiException(errorResponse: errorResponse);
+    }
+    catch(err) {
       throw ConnectionException();
     }
-
-    if (_isSuccessfulStatus(response.statusCode!)) {
-      return response;
-    }
-
-    var errorResponse = ErrorResponseDto.fromJson(response.data);
-    throw ApiException(errorResponse: errorResponse);
   }
 
   @protected
   Future<Response> put(String path, Object? body) async {
-    final Response response = await _dio.put(
-      '$_baseUrl/$path', 
-      data: body,
-      options: Options(
-        validateStatus: (_) => true,
-        headers: {
-          'Authorization': 'Bearer $_token',
-          'ngrok-skip-browser-warning': true
-        }
-      )
-    );
+    try {
+      final Response response = await _dio.put(
+        '$_baseUrl/$path', 
+        data: body,
+        options: Options(
+          validateStatus: (_) => true,
+          headers: {
+            'Authorization': 'Bearer $_token',
+            'ngrok-skip-browser-warning': true
+          }
+        )
+      );
 
-    if (response.statusCode == null || response.data == null) {
+      if (response.statusCode == null || response.data == null) {
+        throw ConnectionException();
+      }
+
+      if (_isSuccessfulStatus(response.statusCode!)) {
+        return response;
+      }
+
+      var errorResponse = ErrorResponseDto.fromJson(response.data);
+      throw ApiException(errorResponse: errorResponse);
+    }
+    catch(err) {
       throw ConnectionException();
     }
-
-    if (_isSuccessfulStatus(response.statusCode!)) {
-      return response;
-    }
-
-    var errorResponse = ErrorResponseDto.fromJson(response.data);
-    throw ApiException(errorResponse: errorResponse);
   }
 
   @protected
   Future<Response> delete(String path) async {
-    final Response response = await _dio.get(
-      '$_baseUrl/$path',
-      options: Options(
-        validateStatus: (_) => true,
-        headers: {
-          'Authorization': 'Bearer $_token',
-          'ngrok-skip-browser-warning': true
-        }
-      )
-    );
+    try {
+      final Response response = await _dio.get(
+        '$_baseUrl/$path',
+        options: Options(
+          validateStatus: (_) => true,
+          headers: {
+            'Authorization': 'Bearer $_token',
+            'ngrok-skip-browser-warning': true
+          }
+        )
+      );
 
-    if (response.statusCode == null || response.data == null) {
+      if (response.statusCode == null || response.data == null) {
+        throw ConnectionException();
+      }
+
+      if (_isSuccessfulStatus(response.statusCode!)) {
+        return response;
+      }
+
+      var errorResponse = ErrorResponseDto.fromJson(response.data);
+      throw ApiException(errorResponse: errorResponse);
+    }
+    catch(err) {
       throw ConnectionException();
     }
-
-    if (_isSuccessfulStatus(response.statusCode!)) {
-      return response;
-    }
-
-    var errorResponse = ErrorResponseDto.fromJson(response.data);
-    throw ApiException(errorResponse: errorResponse);
   }
 
   setToken(String token) {
