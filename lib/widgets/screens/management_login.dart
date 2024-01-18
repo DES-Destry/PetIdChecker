@@ -80,6 +80,24 @@ class ManagementLoginScreen extends StatelessWidget {
                   ],
                 ),
               ),
+            ),
+
+            const SizedBox(height: 24),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: AppColors.primaryBright,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child:
+                    const Text("Send report", style: TextStyle(fontSize: 22)),
+              ),
             )
           ],
         ),
