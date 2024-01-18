@@ -44,7 +44,6 @@ class _ScannerScreenState extends State<ScannerScreen> {
     } on ConnectionException catch (e) {
       onControlCheckResult.call(null, ErrorLike.fromConnectionError(e));
     } catch (e) {
-      print(e);
       onControlCheckResult.call(null, ErrorLike.fromApplicationError(e));
     }
   }
