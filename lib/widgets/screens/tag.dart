@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pet_id_checker/api/dto/check_tag.dto.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/shared/constants/paths.dart';
+import 'package:pet_id_checker/widgets/screens/management_login.dart';
 
 // ignore: must_be_immutable
 class TagScreen extends StatelessWidget {
@@ -19,10 +20,12 @@ class TagScreen extends StatelessWidget {
     }
   }
 
-  Widget _reportButton() {
+  Widget _reportButton(BuildContext context) {
     return !tag.isFree 
       ? ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const ManagementLoginScreen()));
+          },
           style: ElevatedButton.styleFrom(
             foregroundColor: Colors.red,
             backgroundColor: Colors.white,
@@ -79,7 +82,7 @@ class TagScreen extends StatelessWidget {
               )
             ),
             const SizedBox(height: 128.0),
-            _reportButton(),
+            _reportButton(context),
           ],
         ),
       ),
