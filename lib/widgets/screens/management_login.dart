@@ -11,8 +11,10 @@ class ManagementLoginScreen extends StatelessWidget {
       backgroundColor: AppColors.primary,
       body: Container(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 128.0),
+            // Title
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Row(
@@ -35,6 +37,50 @@ class ManagementLoginScreen extends StatelessWidget {
                 ],
               ),
             ),
+
+            // Inputs
+            const SizedBox(height: 48),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                ),
+                child: Column(
+                  children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey),
+                        ),
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintStyle:
+                              TextStyle(color: Colors.grey.withOpacity(.8)),
+                          hintText: 'Admin Login',
+                        ),
+                      ),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintStyle:
+                              TextStyle(color: Colors.grey.withOpacity(.8)),
+                          hintText: 'Password',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
