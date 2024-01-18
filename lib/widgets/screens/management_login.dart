@@ -4,7 +4,7 @@ import 'package:pet_id_checker/shared/constants/paths.dart';
 
 class ManagementLoginScreen extends StatelessWidget {
   const ManagementLoginScreen({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,11 +12,28 @@ class ManagementLoginScreen extends StatelessWidget {
       body: Container(
         child: Column(
           children: [
-            Row(
-              children: [
-                Image(image: AssetImage(Paths.getImage('management_icon.png'))),
-                const Text("PetID Management - Login", style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold))
-              ],
+            const SizedBox(height: 128.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: 64,
+                    height: 64,
+                    child: Image(
+                        image:
+                            AssetImage(Paths.getImage('management_icon.png'))),
+                  ),
+                  const Text(
+                    "PetID Management",
+                    style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
