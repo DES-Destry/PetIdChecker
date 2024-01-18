@@ -57,24 +57,29 @@ class ManagementLoginScreen extends StatelessWidget {
                           bottom: BorderSide(color: Colors.grey),
                         ),
                       ),
-                      child: TextField(
+                      child: TextFormField(
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle:
                               TextStyle(color: Colors.grey.withOpacity(.8)),
                           hintText: 'Admin Login',
                         ),
+                        autocorrect: true,
+                        keyboardType: TextInputType.text,
                       ),
                     ),
                     Container(
                       decoration: const BoxDecoration(),
-                      child: TextField(
+                      child: TextFormField(
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintStyle:
                               TextStyle(color: Colors.grey.withOpacity(.8)),
                           hintText: 'Password',
                         ),
+                        autocorrect: true,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: true,
                       ),
                     ),
                   ],
