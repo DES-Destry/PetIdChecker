@@ -19,20 +19,15 @@ abstract class BaseController {
   @protected
   Future<Response> get(String path) async {
     try {
-      final Response response = await _dio.get(
-        '$_baseUrl/$path', 
-        options: Options(
-          validateStatus: (_) => true,
-          headers: {
+      final Response response = await _dio.get('$_baseUrl/$path',
+          options: Options(validateStatus: (_) => true, headers: {
             'Authorization': 'Bearer $_token',
             'ngrok-skip-browser-warning': true
-          }
-        )
-      );
+          }));
 
       if (response.statusCode == null || response.data == null) {
         throw ConnectionException();
-      } 
+      }
 
       if (response.statusCode == 404 && response.data.runtimeType == String) {
         throw ConnectionException();
@@ -44,26 +39,20 @@ abstract class BaseController {
 
       final errorResponse = ErrorResponseDto.fromJson(response.data);
       throw ApiException(errorResponse: errorResponse);
-    }
-    catch (err) {
+    } catch (err) {
       throw ConnectionException();
     }
   }
 
   @protected
-  Future<Response> post(String path, Object? body) async {
+  Future<Response> post(String path, [Object? body]) async {
     try {
-      final Response response = await _dio.post(
-        '$_baseUrl/$path', 
-        data: body,
-        options: Options(
-          validateStatus: (_) => true,
-          headers: {
+      final Response response = await _dio.post('$_baseUrl/$path',
+          data: body,
+          options: Options(validateStatus: (_) => true, headers: {
             'Authorization': 'Bearer $_token',
             'ngrok-skip-browser-warning': true
-          }
-        )
-      );
+          }));
 
       if (response.statusCode == null || response.data == null) {
         throw ConnectionException();
@@ -75,26 +64,20 @@ abstract class BaseController {
 
       var errorResponse = ErrorResponseDto.fromJson(response.data);
       throw ApiException(errorResponse: errorResponse);
-    }
-    catch(err) {
+    } catch (err) {
       throw ConnectionException();
     }
   }
 
   @protected
-  Future<Response> put(String path, Object? body) async {
+  Future<Response> put(String path, [Object? body]) async {
     try {
-      final Response response = await _dio.put(
-        '$_baseUrl/$path', 
-        data: body,
-        options: Options(
-          validateStatus: (_) => true,
-          headers: {
+      final Response response = await _dio.put('$_baseUrl/$path',
+          data: body,
+          options: Options(validateStatus: (_) => true, headers: {
             'Authorization': 'Bearer $_token',
             'ngrok-skip-browser-warning': true
-          }
-        )
-      );
+          }));
 
       if (response.statusCode == null || response.data == null) {
         throw ConnectionException();
@@ -106,8 +89,7 @@ abstract class BaseController {
 
       var errorResponse = ErrorResponseDto.fromJson(response.data);
       throw ApiException(errorResponse: errorResponse);
-    }
-    catch(err) {
+    } catch (err) {
       throw ConnectionException();
     }
   }
@@ -115,16 +97,11 @@ abstract class BaseController {
   @protected
   Future<Response> delete(String path) async {
     try {
-      final Response response = await _dio.get(
-        '$_baseUrl/$path',
-        options: Options(
-          validateStatus: (_) => true,
-          headers: {
+      final Response response = await _dio.get('$_baseUrl/$path',
+          options: Options(validateStatus: (_) => true, headers: {
             'Authorization': 'Bearer $_token',
             'ngrok-skip-browser-warning': true
-          }
-        )
-      );
+          }));
 
       if (response.statusCode == null || response.data == null) {
         throw ConnectionException();
@@ -136,8 +113,7 @@ abstract class BaseController {
 
       var errorResponse = ErrorResponseDto.fromJson(response.data);
       throw ApiException(errorResponse: errorResponse);
-    }
-    catch(err) {
+    } catch (err) {
       throw ConnectionException();
     }
   }
