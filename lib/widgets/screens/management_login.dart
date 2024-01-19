@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pet_id_checker/api/admin_controller.dart';
 import 'package:pet_id_checker/api/dto/login_admin_request.dto.dart';
@@ -46,24 +47,26 @@ class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
   }
 
   Future<void> _showInfoDialog(
-      BuildContext context, String title, String message) {
+      BuildContext context, String title, String message,
+      [String? details]) {
+    List<Widget> buttons = [];
+
+    if (details != null) {
+      buttons.add(CupertinoDialogAction(
+          child: const Text("Details"),
+          onPressed: () => {_showInfoDialog(context, title, details)}));
+    }
+
+    buttons.add(CupertinoDialogAction(
+        child: const Text("Ok"), onPressed: () => {Navigator.pop(context)}));
+
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
+        return CupertinoAlertDialog(
           title: Text(title),
           content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Ok'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+          actions: buttons,
         );
       },
     );
@@ -174,13 +177,12 @@ class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
                   await _sendReport(context, (response, err) {
                     if (err != null) {
                       _showInfoDialog(context, 'Error',
-                          'Caught error with code: ${err.code}');
+                          'Caught error with code: ${err.code}', err.message);
                       return;
                     }
 
                     _showInfoDialog(context, 'Success',
                         'Tag ${widget.tagId} was reported! Thank you.');
-                    Navigator.pop(context);
                   });
                 },
                 style: ElevatedButton.styleFrom(
