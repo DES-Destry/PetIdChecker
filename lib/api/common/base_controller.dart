@@ -22,6 +22,7 @@ abstract class BaseController {
       final Response response = await _dio.get('$_baseUrl/$path',
           options: Options(validateStatus: (_) => true, headers: {
             'Authorization': 'Bearer $_token',
+            'Content-Type': 'application/json',
             'ngrok-skip-browser-warning': true
           }));
 
@@ -51,6 +52,7 @@ abstract class BaseController {
           data: body,
           options: Options(validateStatus: (_) => true, headers: {
             'Authorization': 'Bearer $_token',
+            'Content-Type': 'application/json',
             'ngrok-skip-browser-warning': true
           }));
 
@@ -76,6 +78,7 @@ abstract class BaseController {
           data: body,
           options: Options(validateStatus: (_) => true, headers: {
             'Authorization': 'Bearer $_token',
+            'Content-Type': 'application/json',
             'ngrok-skip-browser-warning': true
           }));
 
@@ -100,6 +103,7 @@ abstract class BaseController {
       final Response response = await _dio.get('$_baseUrl/$path',
           options: Options(validateStatus: (_) => true, headers: {
             'Authorization': 'Bearer $_token',
+            'Content-Type': 'application/json',
             'ngrok-skip-browser-warning': true
           }));
 

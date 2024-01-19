@@ -27,7 +27,8 @@ class TagScreen extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => const ManagementLoginScreen()));
+                      builder: (context) =>
+                          ManagementLoginScreen(tagId: tag.id)));
             },
             style: ElevatedButton.styleFrom(
               foregroundColor: Colors.red,

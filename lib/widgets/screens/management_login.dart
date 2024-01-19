@@ -1,25 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:pet_id_checker/api/admin_controller.dart';
+import 'package:pet_id_checker/api/dto/login_admin_request.dto.dart';
 import 'package:pet_id_checker/api/dto/void_response.dto.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/shared/constants/paths.dart';
+import 'package:pet_id_checker/shared/exceptions/api.exception.dart';
+import 'package:pet_id_checker/shared/exceptions/connection.exception.dart';
 import 'package:pet_id_checker/shared/exceptions/error_like.dart';
 
 class ManagementLoginScreen extends StatefulWidget {
-  const ManagementLoginScreen({super.key});
+  final int tagId;
+  const ManagementLoginScreen({super.key, required this.tagId});
 
   @override
   State<ManagementLoginScreen> createState() => _ManagementLoginScreenState();
 }
 
 class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
-  late String login = '';
+  final AdminController _adminController = AdminController();
+
+  late String username = '';
   late String password = '';
 
   late bool isLoading = false;
 
   Future<void> _sendReport(BuildContext context,
       Function(VoidResponseDto? response, ErrorLike? error) callback) async {
-    callback(null, null);
+    try {
+      isLoading = true;
+      var loginResult = await _adminController.loginAdmin(
+          LoginAdminRequestDto(username: username, password: password));
+
+      _adminController.setToken(loginResult.accessToken);
+
+      var response = await _adminController.createReport(widget.tagId);
+      callback(response, null);
+      isLoading = false;
+    } on ApiException catch (e) {
+      callback(null, ErrorLike.fromApiError(e));
+    } on ConnectionException catch (e) {
+      callback(null, ErrorLike.fromConnectionError(e));
+    } catch (e) {
+      callback(null, ErrorLike.fromApplicationError(e));
+    }
+  }
+
+  Future<void> _showInfoDialog(
+      BuildContext context, String title, String message) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -91,11 +138,11 @@ class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
                           border: InputBorder.none,
                           hintStyle:
                               TextStyle(color: Colors.grey.withOpacity(.8)),
-                          hintText: 'Admin Login',
+                          hintText: 'Admin Username',
                         ),
                         autocorrect: true,
                         keyboardType: TextInputType.text,
-                        onChanged: (loginText) => {login = loginText},
+                        onChanged: (usernameText) => {username = usernameText},
                       ),
                     ),
                     Container(
@@ -123,8 +170,18 @@ class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: ElevatedButton(
-                onPressed: () {
-                  print('$login, $password');
+                onPressed: () async {
+                  await _sendReport(context, (response, err) {
+                    if (err != null) {
+                      _showInfoDialog(context, 'Error',
+                          'Caught error with code: ${err.code}');
+                      return;
+                    }
+
+                    _showInfoDialog(context, 'Success',
+                        'Tag ${widget.tagId} was reported! Thank you.');
+                    Navigator.pop(context);
+                  });
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
