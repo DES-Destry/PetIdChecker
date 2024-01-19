@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pet_id_checker/api/dto/void_response.dto.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/shared/constants/paths.dart';
+import 'package:pet_id_checker/shared/exceptions/error_like.dart';
 
 class ManagementLoginScreen extends StatefulWidget {
   const ManagementLoginScreen({super.key});
@@ -12,6 +14,13 @@ class ManagementLoginScreen extends StatefulWidget {
 class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
   late String login = '';
   late String password = '';
+
+  late bool isLoading = false;
+
+  Future<void> _sendReport(BuildContext context,
+      Function(VoidResponseDto? response, ErrorLike? error) callback) async {
+    callback(null, null);
+  }
 
   @override
   Widget build(BuildContext context) {
