@@ -21,23 +21,24 @@ class TagScreen extends StatelessWidget {
   }
 
   Widget _reportButton(BuildContext context) {
-    return !tag.isFree 
-      ? ElevatedButton(
-          onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const ManagementLoginScreen()));
-          },
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.red,
-            backgroundColor: Colors.white,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+    return !tag.isFree
+        ? ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ManagementLoginScreen()));
+            },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.red,
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
-          ),
-          child: const Text("Report tag", style: TextStyle(
-            fontSize: 22
-          )),
-      ) 
-      : Container();
+            child: const Text("Report tag", style: TextStyle(fontSize: 22)),
+          )
+        : Container();
   }
 
   @override
@@ -50,7 +51,7 @@ class TagScreen extends StatelessWidget {
           children: [
             const SizedBox(height: 64.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 CloseButton(
                   color: AppColors.textPrimary,
@@ -58,29 +59,36 @@ class TagScreen extends StatelessWidget {
                     Navigator.pop(context);
                   },
                 ),
-            ],),
+              ],
+            ),
             const SizedBox(height: 64.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 100.0),
-              child: Center(
-                child: Image(image: AssetImage(image))
-              ),
+              child: Center(child: Image(image: AssetImage(image))),
             ),
             Center(
-              child: Text('#${tag.id}', style: const TextStyle(fontSize: 64, color: AppColors.textPrimary, fontWeight: FontWeight.bold))
-            ),
+                child: Text('#${tag.id}',
+                    style: const TextStyle(
+                        fontSize: 64,
+                        color: AppColors.textPrimary,
+                        fontWeight: FontWeight.bold))),
             const SizedBox(height: 32.0),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Is Free: $isFreeStatus', style: const TextStyle(fontSize: 16, color: AppColors.textSecondary)),
-                  Text('Owner Email: ${tag.pet?.ownerEmail ?? 'N/A'}', style: const TextStyle(fontSize: 16, color: AppColors.textSecondary)),
-                  Text('Pet Name: ${tag.pet?.name ?? 'N/A'}', style: const TextStyle(fontSize: 16, color: AppColors.textSecondary)),
-                ],
-              )
-            ),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Is Free: $isFreeStatus',
+                        style: const TextStyle(
+                            fontSize: 16, color: AppColors.textSecondary)),
+                    Text('Owner Email: ${tag.pet?.ownerEmail ?? 'N/A'}',
+                        style: const TextStyle(
+                            fontSize: 16, color: AppColors.textSecondary)),
+                    Text('Pet Name: ${tag.pet?.name ?? 'N/A'}',
+                        style: const TextStyle(
+                            fontSize: 16, color: AppColors.textSecondary)),
+                  ],
+                )),
             const SizedBox(height: 128.0),
             _reportButton(context),
           ],

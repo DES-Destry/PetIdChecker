@@ -21,7 +21,19 @@ class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(height: 128.0),
+            const SizedBox(height: 64.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                CloseButton(
+                  color: AppColors.textPrimary,
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(height: 64.0),
             // Title
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
