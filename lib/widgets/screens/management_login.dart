@@ -28,7 +28,9 @@ class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
   Future<void> _sendReport(BuildContext context,
       Function(VoidResponseDto? response, ErrorLike? error) callback) async {
     try {
-      isLoading = true;
+      setState(() {
+        isLoading = true;
+      });
       var loginResult = await _adminController.loginAdmin(
           LoginAdminRequestDto(username: username, password: password));
 
@@ -36,7 +38,9 @@ class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
 
       var response = await _adminController.createReport(widget.tagId);
       callback(response, null);
-      isLoading = false;
+      setState(() {
+        isLoading = false;
+      });
     } on ApiException catch (e) {
       callback(null, ErrorLike.fromApiError(e));
     } on ConnectionException catch (e) {
@@ -172,30 +176,37 @@ class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
-              child: ElevatedButton(
-                onPressed: () async {
-                  await _sendReport(context, (response, err) {
-                    if (err != null) {
-                      _showInfoDialog(context, 'Error',
-                          'Caught error with code: ${err.code}', err.message);
-                      return;
-                    }
+              child: isLoading
+                  ? const CircularProgressIndicator(
+                      strokeWidth: 3.0,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
+                  : ElevatedButton(
+                      onPressed: () async {
+                        await _sendReport(context, (response, err) {
+                          if (err != null) {
+                            _showInfoDialog(
+                                context,
+                                'Error',
+                                'Caught error with code: ${err.code}',
+                                err.message);
+                            return;
+                          }
 
-                    _showInfoDialog(context, 'Success',
-                        'Tag #${widget.tagId} was reported! Thank you.');
-                  });
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: AppColors.primaryBright,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child:
-                    const Text("Send report", style: TextStyle(fontSize: 22)),
-              ),
-            )
+                          _showInfoDialog(context, 'Success',
+                              'Tag #${widget.tagId} was reported! Thank you.');
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: AppColors.primaryBright,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                      child: const Text("Send report",
+                          style: TextStyle(fontSize: 22)),
+                    ),
+            ),
           ],
         ),
       ),
