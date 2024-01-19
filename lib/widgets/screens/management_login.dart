@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:pet_id_checker/shared/constants/app_colors.dart';
 import 'package:pet_id_checker/shared/constants/paths.dart';
 
-class ManagementLoginScreen extends StatelessWidget {
+class ManagementLoginScreen extends StatefulWidget {
   const ManagementLoginScreen({super.key});
+
+  @override
+  State<ManagementLoginScreen> createState() => _ManagementLoginScreenState();
+}
+
+class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
+  late String login = '';
+  late String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +74,7 @@ class ManagementLoginScreen extends StatelessWidget {
                         ),
                         autocorrect: true,
                         keyboardType: TextInputType.text,
+                        onChanged: (loginText) => {login = loginText},
                       ),
                     ),
                     Container(
@@ -80,6 +89,7 @@ class ManagementLoginScreen extends StatelessWidget {
                         autocorrect: true,
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: true,
+                        onChanged: (passwordText) => {password = passwordText},
                       ),
                     ),
                   ],
@@ -92,7 +102,9 @@ class ManagementLoginScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  print('$login, $password');
+                },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
                   backgroundColor: AppColors.primaryBright,
