@@ -54,7 +54,7 @@ class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
     if (details != null) {
       buttons.add(CupertinoDialogAction(
           child: const Text("Details"),
-          onPressed: () => {_showInfoDialog(context, title, details)}));
+          onPressed: () => {_showInfoDialog(context, "Details", details)}));
     }
 
     buttons.add(CupertinoDialogAction(
