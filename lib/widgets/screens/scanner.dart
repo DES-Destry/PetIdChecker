@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:pet_id_checker/api/dto/check_tag.dto.dart';
@@ -28,16 +29,21 @@ class _ScannerScreenState extends State<ScannerScreen> {
     return double.tryParse(s) != null;
   }
 
-  Future<void> _onScan(BuildContext context, BarcodeCapture result, VoidCallback onQrFormatError, Function(CheckTagDto?, ErrorLike?) onControlCheckResult) async {
+  Future<void> _onScan(
+      BuildContext context,
+      BarcodeCapture result,
+      VoidCallback onQrFormatError,
+      Function(CheckTagDto?, ErrorLike?) onControlCheckResult) async {
     final String controlCode = result.raw[0]['rawValue'];
 
-    if(!isNumeric(controlCode)) {
+    if (!isNumeric(controlCode)) {
       onQrFormatError.call();
       return;
     }
 
     try {
-      final CheckTagDto checkResult = await _tagController.tagPreSellCheck(controlCode);
+      final CheckTagDto checkResult =
+          await _tagController.tagPreSellCheck(controlCode);
       onControlCheckResult.call(checkResult, null);
     } on ApiException catch (e) {
       onControlCheckResult.call(null, ErrorLike.fromApiError(e));
@@ -48,27 +54,32 @@ class _ScannerScreenState extends State<ScannerScreen> {
     }
   }
 
-  Future<void> _showInfoDialog(BuildContext context, String title, String message) {
+  Future<void> _showInfoDialog(
+      BuildContext context, String title, String message,
+      [String? details]) {
     dialogsOpened++;
+    List<Widget> buttons = [];
+
+    if (details != null) {
+      buttons.add(CupertinoDialogAction(
+          child: const Text("Details"),
+          onPressed: () => {_showInfoDialog(context, "Details", details)}));
+    }
+
+    buttons.add(CupertinoDialogAction(
+        child: const Text("Ok"),
+        onPressed: () {
+          dialogsOpened--;
+          Navigator.pop(context);
+        }));
 
     return showDialog<void>(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
+        return CupertinoAlertDialog(
           title: Text(title),
           content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: const Text('Ok'),
-              onPressed: () {
-                dialogsOpened--;
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+          actions: buttons,
         );
       },
     );
@@ -81,45 +92,46 @@ class _ScannerScreenState extends State<ScannerScreen> {
       appBar: AppBar(
         foregroundColor: AppColors.textSecondary,
         backgroundColor: AppColors.primary,
-        title: const Text('PreSell Checker Scanner', style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
+        title: const Text('PreSell Checker Scanner',
+            style: TextStyle(
+                color: AppColors.textPrimary, fontWeight: FontWeight.bold)),
       ),
       body: SizedBox(
         width: double.infinity,
         child: Column(
-            children: [
-              Expanded(
-                child: Stack(
-                  children: [
-                    MobileScanner(
-                      controller: MobileScannerController(
-                        detectionTimeoutMs: 1000,
-                      ),
-                      onDetect: (result) async {
-                        if (dialogsOpened != 0) {
-                          return;
-                        }
+          children: [
+            Expanded(
+                child: Stack(children: [
+              MobileScanner(
+                controller: MobileScannerController(
+                  detectionTimeoutMs: 1000,
+                ),
+                onDetect: (result) async {
+                  if (dialogsOpened != 0) {
+                    return;
+                  }
 
-                        await _onScan(context, result,
-                          () { 
-                            _showInfoDialog(context, 'Invalid QR code', 'This QR has an unknown format');
-                          },
-                          (CheckTagDto? tag, ErrorLike? err) {
-                            if (err != null) {
-                              _showInfoDialog(context, 'Error', 'Caught error with code: ${err.code}');
-                              return;
-                            }
+                  await _onScan(context, result, () {
+                    _showInfoDialog(context, 'Invalid QR code',
+                        'This QR has an unknown format');
+                  }, (CheckTagDto? tag, ErrorLike? err) {
+                    if (err != null) {
+                      _showInfoDialog(context, 'Error',
+                          'Caught error with code: ${err.code}', err.message);
+                      return;
+                    }
 
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TagScreen(tag: tag!)));
-                          }
-                        );
-                      },
-                    ),
-                    const QRScannerOverlay(overlayColour: AppColors.shadowPrimary)
-                  ]
-                )
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TagScreen(tag: tag!)));
+                  });
+                },
               ),
-            ],
-          ),
+              const QRScannerOverlay(overlayColour: AppColors.shadowPrimary)
+            ])),
+          ],
+        ),
       ),
     );
   }

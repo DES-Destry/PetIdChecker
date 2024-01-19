@@ -182,7 +182,7 @@ class _ManagementLoginScreenState extends State<ManagementLoginScreen> {
                     }
 
                     _showInfoDialog(context, 'Success',
-                        'Tag ${widget.tagId} was reported! Thank you.');
+                        'Tag #${widget.tagId} was reported! Thank you.');
                   });
                 },
                 style: ElevatedButton.styleFrom(
