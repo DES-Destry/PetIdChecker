@@ -4,7 +4,7 @@ import 'package:pet_id_checker/api/dto/login_admin_response.dto.dart';
 import 'package:pet_id_checker/api/dto/void_response.dto.dart';
 
 class AdminController extends BaseController {
-  final String _basePath = 'api/admin';
+  final String _basePath = 'admin';
 
   Future<LoginAdminResponseDto> loginAdmin(LoginAdminRequestDto request) async {
     final response = await post('$_basePath/login', request);
